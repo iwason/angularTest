@@ -5,34 +5,49 @@
     <script src="myscript.js"></script>
     <meta charset="UTF-8"/>
     <title>Angular Test</title>
+    <style>
+        .even {
+            background-color: lightblue;
+        }
+        .odd {
+            background-color: lightyellow;
+        }
+    </style>
 </head>
 <body>
-    <h1>Angular test </h1>
-    <hr/>
-    <div ng-controller="mainCtrl">
-        <p>今日は　{{today|date:"yyyy年MM月dd日"}}</p>
-    </div>
-    検索ワード<input type="text" ng-model="query.name"/>
-    <div ng-controller="mainCtrl">
-        <p>名前検索 {{query.name}}</p>
-        <ul style="list-style: none">
-            <li>ユーザ：{{users.length + usersNotYet.length }}名</li>
-            <ul>
-                <li>受験済：{{users.length}}名</li>
-                <li>未受験：{{usersNotYet.length}}名</li>
-            </ul>
-        </ul>
+<h1>Angular test </h1>
+<hr/>
+<div ng-controller="mainCtrl">
+    <p>今日は　{{today|date:"yyyy年MM月dd日"}}</p>
+</div>
+検索ワード<input type="text" ng-model="query.name"/>
+
+<div ng-controller="mainCtrl">
+    <p>名前検索 {{query.name}}</p>
+    <ul style="list-style: none">
+        <li>ユーザ：{{users.length + usersNotYet.length }}名</li>
         <ul>
-            <li ng-repeat="member in users |orderBy:'score'|filter:query">{{member.name|lowercase}}さんの点数は、{{member.score}} </li>
+            <li>受験済：{{users.length}}名</li>
+            <li>未受験：{{usersNotYet.length}}名</li>
         </ul>
-        <ul>
-            <li ng-repeat="test in usersNotYet|orderBy:'name'| filter:query">{{test.name}} {{name|lowercase}}さんは未受験です</li>
-        </ul>
-    </div>
-    <hr/>
-    <div ng-controller="bto">
-        {{pc.length}}
-        <ul><li ng-repeat="parts in pc">{{parts.part}}の値段は{{parts.value| currency:"\\" }}</li></ul>
-    </div>
+    </ul>
+    <ul>
+        <li ng-repeat="member in users |orderBy:'score'|filter:query" ng-class-even="'even'" ng-class-odd="'odd'" ng-controller="userItemCtrl">
+            {{$index + 1}} {{member.name|lowercase}}さんの点数は、{{member.score}}
+            <button ng-click="increment()">+1</button>
+        </li>
+    </ul>
+    <ul>
+        <li ng-repeat="test in usersNotYet|orderBy:'-name'| filter:query">
+            {{test.name}} {{$first}} {{$last}} {{name|lowercase}}さんは未受験です
+        </li>
+    </ul>
+</div>
+<hr/>
+<div ng-controller="bto">
+    <ul>
+        <li ng-repeat="parts in pc">{{parts.part}}の値段は{{parts.value| currency:"\\" }}</li>
+    </ul>
+</div>
 </body>
 </html>

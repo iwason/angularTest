@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    <script src="myscript.js"></script>
+    <meta charset="UTF-8"/>
+    <title>Angular Test</title>
+</head>
+<body>
+<h1>Angular test </h1>
+<hr/>
+<div ng-controller="mainCtrl">
+    <p>今日は　{{today|date:"yyyy年MM月dd日"}}</p>
+    <p>ユーザ：{{users.length + usersNotYet.length }}名</p>
+</div>
+検索ワード<input type="text" ng-model="query"/>
+
+<div ng-controller="mainCtrl">
+    <form novalidate action="" name="myForm" ng-submit="addUser()">
+        <p>Name:<input type="text" name="name" ng-model="user.name" required ng-minlength="5" ng-maxlength="8">
+            <span ng-show="myForm.name.$error.required">必須です</span>
+            <span ng-show="myForm.name.$error.minlength">短いです</span>
+            <span ng-show="myForm.name.$error.maxlength">長いです。</span>
+        </p>
+
+        <p>Score:<input type="number" name="score" ng-model="user.score" required ng-minlength="1" ng-maxlength="3">
+            <span ng-show="myForm.score.$error.minlength">短いです</span>
+        </p>
+        <p>Email:<input type="email" name="email" ng-model="user.email" required>
+            <span ng-show="myForm.email.$error.email">Not valid email !</span>
+        </p>
+        <p>Web::<input type="url" name="url" ng-model="user.url" required>
+            <span ng-show="myForm.url.$error.url">Not valid url!</span>
+        </p>
+        <p><input type="submit"value="add"></p>
+
+    </form>
+    <pre>{{user|json}}</pre>
+</div>
+<div ng-controller="mainCtrl">
+    <ul>
+        <li ng-repeat="member in users |orderBy:'score'"ng-controller="userItemCtrl">
+            {{$index + 1}} {{member.name|lowercase}}さんの点数は、{{member.score}}
+            <button ng-click="increment()">+1</button>
+        </li>
+    </ul>
+</div>
+<hr/>
+</body>
+</html>
