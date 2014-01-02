@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    <script src="myscript.js"></script>
+    <meta charset="UTF-8"/>
+    <title>Angular Test</title>
+</head>
+<body>
+<h1>Angular test </h1>
+<hr/>
+<div ng-controller="mainCtrl">
+    <p>今日は　{{today|date:"yyyy年MM月dd日"}}</p>
+    <p>ユーザ：{{users.length + usersNotYet.length }}名</p>
+</div>
+検索ワード<input type="text" ng-model="query"/>
+
+<div ng-controller="mainCtrl">
+    <form novalidate action="" name="myForm" ng-submit="addUser()">
+        <p>Color:
+            <select ng-model="user.color" ng-options="color+'かな' for color in ['red','blue','yellow']"
+                    ng-init="user.color='red'">
+            </select>
+        </p>
+        <p>18+:<input type="checkbox"  ng-model="user.adult" ng-true-value="adult" ng-false-value="child">
+        </p>
+        <p>Phone:
+            <input type="radio" ng-model="user.phone" value="home">home
+            <input type="radio" ng-model="user.phone" value="mobile">mobile
+        </p>
+        <p><input type="submit"value="add"></p>
+        <p>memo:
+            <textarea name="memo" id="memo" cols="30" rows="6" ng-model="user.memo" ng-maxlength="140">
+
+            </textarea>{{140-user.memo.length}}</p>
+    </form>
+    <pre>{{user|json}}</pre>
+</div>
+<div ng-controller="mainCtrl">
+    <ul>
+        <li ng-repeat="member in users |orderBy:'score'"ng-controller="userItemCtrl">
+            {{$index + 1}} {{member.name|lowercase}}さんの点数は、{{member.score}}
+            <button ng-click="increment()">+1</button>
+        </li>
+    </ul>
+</div>
+<hr/>
+</body>
+</html>
